@@ -1,44 +1,22 @@
-graph TD
-    %% Clientes
-    subgraph Clientes ["Clientes (Capa de Presentación)"]
-        C1[Cliente Web]
-        C2[Cliente Móvil]
-    end
+# PFO 3: Rediseño como Sistema Distribuido (Cliente-Servidor)
 
-    %% Balanceador de Carga
-    LB{{"Balanceador de Carga\n(Nginx / HAProxy)"}}
+**Materia:** Programación sobre Redes  
+**Comisión:** E  
+**Alumno:** Moreno Rico Diego Emilio  
 
-    %% Servidores / Workers
-    subgraph Cluster ["Servidores Workers (Procesamiento)"]
-        S1[Servidor 1\nPool de Hilos]
-        S2[Servidor 2\nPool de Hilos]
-        S3[Servidor N\nPool de Hilos]
-    end
+---
 
-    %% Cola de Mensajes
-    MQ>["Cola de Mensajes\n(RabbitMQ)"]
+## Arquitectura del Sistema
+El siguiente diagrama detalla la infraestructura distribuida de la aplicación, contemplando la capa de presentación, el balanceador de carga, el cluster de workers para procesamiento, la cola de mensajes (RabbitMQ) y el almacenamiento persistente (PostgreSQL y Amazon S3).
 
-    %% Almacenamiento Distribuido
-    subgraph Almacenamiento ["Almacenamiento Distribuido"]
-        DB[(Base de Datos Relacional\nPostgreSQL)]
-        S3_Obj[(Object Storage\nAmazon S3)]
-    end
+![Diagrama de Arquitectura del Sistema](PFO3%20Diagrama.drawio.png)
 
-    %% Conexiones
-    C1 -->|Peticiones HTTP/Sockets| LB
-    C2 -->|Peticiones HTTP/Sockets| LB
-    LB -->|Distribución de Carga| S1
-    LB -->|Distribución de Carga| S2
-    LB -->|Distribución de Carga| S3
-    
-    S1 <-->|Publica/Consume Eventos| MQ
-    S2 <-->|Publica/Consume Eventos| MQ
-    S3 <-->|Publica/Consume Eventos| MQ
+## Implementación de Sockets y Workers
+El proyecto incluye un servidor concurrente que implementa un `ThreadPoolExecutor` para procesar tareas en segundo plano sin bloquear el Event Loop principal, simulando el comportamiento de los nodos *workers* de la arquitectura distribuida.
 
-    S1 -->|Lectura/Escritura| DB
-    S2 -->|Lectura/Escritura| DB
-    S3 -->|Lectura/Escritura| DB
-    
-    S1 -->|Archivos Estáticos/Multimedia| S3_Obj
-    S2 -->|Archivos Estáticos/Multimedia| S3_Obj
-    S3 -->|Archivos Estáticos/Multimedia| S3_Obj
+### Instrucciones de Ejecución
+
+1. **Iniciar el servidor:**
+   Abrir una terminal en la raíz del proyecto y ejecutar:
+   ```bash
+   python servidor.py
