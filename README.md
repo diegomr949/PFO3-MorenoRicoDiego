@@ -18,5 +18,13 @@ El proyecto incluye un servidor concurrente que implementa un `ThreadPoolExecuto
 
 1. **Iniciar el servidor:**
    Abrir una terminal en la raíz del proyecto y ejecutar:
-   ```bash
+
    python servidor.py
+
+   El servidor quedará a la escucha en la dirección local (127.0.0.1) en el puerto 65432.
+
+2. **Ejecutar peticiones (Clientes):**
+    Abrir terminales adicionales y enviar tareas simuladas ejecutando:
+
+    python cliente.py "Generar reporte mensual"
+    python cliente.py "Procesar imágenes"
