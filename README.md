@@ -10,7 +10,7 @@
 
 El siguiente diagrama detalla la infraestructura distribuida de la aplicación, contemplando la capa de presentación, el balanceador de carga, el cluster de workers para procesamiento, la cola de mensajes (RabbitMQ) y el almacenamiento persistente (PostgreSQL y Amazon S3).
 
-![Diagrama de Arquitectura del Sistema](PFO3_Diagrama_drawio.png)
+![Diagrama de Arquitectura del Sistema](PFO3 Diagrama.drawio.png)
 
 ## Implementación de Sockets y Workers
 
